@@ -1,0 +1,21 @@
+.luz{
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: honeydew;
+}
+
+.vermelha{
+    background-color: red;
+}
+ .amarela{
+        background-color: yellow;
+}
+
+ .verde{
+        background-color: green;
+}
+
+.cinza{
+    background-color: gray;
+}

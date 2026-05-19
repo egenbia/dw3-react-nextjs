@@ -1,0 +1,127 @@
+import styles from "@/components/CreateContent/CreateContent.module.css";
+import { useState } from "react";
+// hook para redirecionamentos
+import { useRouter } from "next/router";
+import axios from "axios";
+
+const CreateContent = () => {
+  // Inicializando o router
+  const router = useRouter();
+
+  // Criando estados para armazenar os dados do formulário
+  const [title, setTitle] = useState("");
+  const [platform, setPlatform] = useState("");
+  const [genre, setGenre] = useState("");
+  const [rating, setRating] = useState("");
+  const [year, setYear] = useState("");
+  const [price, setPrice] = useState("");
+
+  // FUNÇÃO PARA CADASTRAR UM JOGO
+  const handleSubmit = async (event) => {
+    // Abortando o recarregamento da página ao enviar o formulário
+    event.preventDefault();
+    // VERIFICANDO SE TODOS OS CAMPOS FORAM PREENCHIDOS
+    if (title && platform && genre && rating && year && price !== "") {
+      try {
+        // CRIANDO O JSON (OBJETO) COM AS INFORMAÇÕES DO JOGO
+        const game = {
+          title: title,
+          year: year,
+          price: price,
+          descriptions: {
+            platform: platform,
+            genre: genre,
+            rating: rating
+          }
+        }
+        // Cadastrando na API
+        const response = await axios.post("http://localhost:4000/games", game);
+        // VERIFICANDO O RETORNO DA API
+        if (response.status === 201) {
+          alert("Jogo cadastrado com sucesso!")
+          // Redirecionando o usuário para a home
+          router.push("/home")
+        } else {
+          alert("Ocorreu um erro ao cadastrar o jogo.")
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      alert("Por favor, preencha todos os campos.")
+    }
+  }
+
+  return (
+    <div className={styles.createContent}>
+      <div className="title">
+        <h2>Cadastrar novo jogo</h2>
+      </div>
+      <form id="createForm" className="formPrimary" onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Insira o título do jogo"
+          className="inputPrimary"
+          value={title}
+          // Atualizando o estado com o valor digitado na input
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          name="platform"
+          id="platform"
+          placeholder="Insira a plataforma do jogo"
+          className="inputPrimary"
+          value={platform}
+          onChange={(e) => setPlatform(e.target.value)}
+        />
+        <input
+          type="text"
+          name="genre"
+          id="genre"
+          placeholder="Insira o gênero do jogo"
+          className="inputPrimary"
+          value={genre}
+          onChange={(e) => setGenre(e.target.value)}
+        />
+        <input
+          type="text"
+          name="rating"
+          id="rating"
+          placeholder="Insira a classificação do jogo"
+          className="inputPrimary"
+          value={rating}
+          onChange={(e) => setRating(e.target.value)}
+        />
+        <input
+          type="number"
+          name="year"
+          id="year"
+          placeholder="Insira o ano do jogo"
+          className="inputPrimary"
+          value={year}
+          onChange={(e) => setYear(e.target.value)}
+        />
+        <input
+          type="number"
+          name="price"
+          id="price"
+          placeholder="Insira o preço do jogo"
+          className="inputPrimary"
+          value={price}
+          onChange={(e) => setPrice(e.target.value)}
+        />
+        <input
+          type="submit"
+          value="Cadastrar"
+          id="createBtn"
+          className="btnPrimary"
+        />
+      </form>
+    </div>
+  );
+};
+
+export default CreateContent;
