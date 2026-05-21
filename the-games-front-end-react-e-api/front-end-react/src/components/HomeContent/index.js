@@ -6,7 +6,6 @@ import axios from "axios" // Biblioteca que permite consumir a API
 import { useState, useEffect } from "react";
 import EditContent from "../EditContent";
 //importando o axiosConfig
-import axiosConfig from "@/services/authServices";
 import { getAxiosConfig } from "@/services/authServices";
 
 
@@ -44,7 +43,7 @@ const HomeContent = () => {
     try {
       const response = await axios.delete(`
         http://localhost:4000/games/${gameId}
-        `);
+        `, getAxiosConfig());
       if (response.status === 204) {
         alert("O jogo foi excluído com sucesso!");
         // Atualizando o estado removendo o jogo excluído

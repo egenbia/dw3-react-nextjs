@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import styles from "@/components/EditContent/EditContent.module.css";
 import axios from "axios";
+//importando o axiosConfig
+import { getAxiosConfig } from "@/services/authServices";
 
 const EditContent = ({ game, onClose, handleUpdateGame }) => {
     // Criando estados para armazenar os dados do formulário
@@ -44,7 +46,7 @@ const EditContent = ({ game, onClose, handleUpdateGame }) => {
         }
         //enviando para a api
         try {
-            const response = await axios.put(`http://localhost:4000/games/${id}`, updatedGame);
+            const response = await axios.put(`http://localhost:4000/games/${id}`, updatedGame, getAxiosConfig());
 
             if (response.status === 200) {
                 alert("Jogo alterado com sucesso!");
